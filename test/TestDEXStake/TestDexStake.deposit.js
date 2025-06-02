@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 
-const testDEXStakeAddress = "0x631436b3cc267aF8055b6EBFaE5c93C64851Ea03"; 
-const testDEX = "0x6746892382466aF4ba465c5Ff3F6379A92Fa922c"; //Token TTT
+const testDEXStakeAddress = "0xbE3CF33BE9fB5917f73D07cfE18286b712156c4D"; 
+const testDEX = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; //Token TTT
 
 const testDEXStakeABI = [
   {
@@ -1583,7 +1583,7 @@ const testDEXStakeABI = [
     "type": "function"
   }
 ];
-const ERC20_ABI = [
+const TOKEN_ABI = [
   {
     "inputs": [
       {
@@ -2127,7 +2127,7 @@ const ERC20_ABI = [
 async function main() {
   const [signer] = await ethers.getSigners();
   const testDEXStake = new ethers.Contract(testDEXStakeAddress, testDEXStakeABI, signer);
-  const ZTWToken = new ethers.Contract(testDEX, ERC20_ABI, signer);
+  const ZTWToken = new ethers.Contract(testDEX, TOKEN_ABI, signer);
 
   const amount = ethers.utils.parseUnits("0.0001", 18);
   const lockDuration = 0; // ⚠️ 1 ngày
@@ -2175,4 +2175,4 @@ main().catch((error) => {
 });
 
 
-// npx hardhat run test/TestDEXStake/TestDexStake.deposit.js --network RiseChain
+// npx hardhat run test/TestDEXStake/TestDexStake.deposit.js --network TabiChain

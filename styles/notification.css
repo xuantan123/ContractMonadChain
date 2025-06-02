@@ -1,0 +1,103 @@
+.mint-success-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: white;
+    border: 2px solid #4CAF50;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    z-index: 10000;
+    max-width: 400px;
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification-header {
+    background: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-header h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+}
+
+.notification-body {
+    padding: 20px;
+}
+
+.notification-body p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.add-nft-btn, .manual-btn {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 5px 5px 5px 0;
+    font-size: 14px;
+}
+
+.add-nft-btn:hover, .manual-btn:hover {
+    background: #1976D2;
+}
+
+.manual-btn {
+    background: #FF9800;
+}
+
+.manual-btn:hover {
+    background: #F57C00;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(33, 150, 243, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
+    }
+}
+
+.countdown {
+    font-size: 12px;
+    color: #666;
+    margin-top: 10px;
+} 

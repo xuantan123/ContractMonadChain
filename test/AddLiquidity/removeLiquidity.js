@@ -6,7 +6,7 @@ const provider = new ethers.providers.JsonRpcProvider(process.env.URL);
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
 // Thông tin smart contract
-const ROUTER_ADDRESS = "0x8408A9FEe31a4B78632f27c1223b5574d6d68054"; 
+const ROUTER_ADDRESS = "0x4ACb452D4cC7FDc61dbFA0695f849D1d2aAfB4E2"; 
 const routerABI = [
   {
     "inputs": [
@@ -980,7 +980,7 @@ const routerABI = [
     "type": "receive"
   }
 ];
-const FACTORY_ADDRESS = "0xC4E5b6f7e5cd88455d2DA4acfC2d4C6206f9C92C";
+const FACTORY_ADDRESS = "0x6D6945B12E04bC1eEF079E29Ce829F82c44a3bb7";
 const factoryABI = [
   {
     "inputs": [
@@ -1195,9 +1195,9 @@ const factoryContract = new ethers.Contract(FACTORY_ADDRESS, factoryABI, wallet)
 
 async function removeLiquidity() {
     try {
-        const WETH = "0x701855ae3a8b2A989DC8ACCf02Dd2b96f8B21671";
-        const token = "0x6746892382466aF4ba465c5Ff3F6379A92Fa922c"; 
-        const liquidity = ethers.utils.parseUnits("0.02", 18);
+        const WETH = "0xCde9c6ad3f82f322AC86DC63eFF63bC405072F95";
+        const token = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; 
+        const liquidity = ethers.utils.parseUnits("1", 18);
         const amountTokenMin = ethers.utils.parseUnits("0", 18);
         const amountETHMin = ethers.utils.parseUnits("0", 18);
         const deadline = Math.floor(Date.now() / 1000) + 60 * 20;
@@ -1278,4 +1278,4 @@ async function removeLiquidity() {
 // Gọi hàm remove
 removeLiquidity();
 
-// npx hardhat run test/AddLiquidity/removeLiquidity.js --network RiseChain
+// npx hardhat run test/AddLiquidity/removeLiquidity.js --network TabiChain

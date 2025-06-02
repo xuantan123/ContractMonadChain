@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NFT Mint</title>
+    <style>
+        body { 
+            font-family: Arial; 
+            text-align: center; 
+            padding: 50px; 
+            background: #f5f5f5;
+        }
+        .mint-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        #mint-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+        #mint-btn:hover:not(:disabled) {
+            background: #45a049;
+        }
+        #mint-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .price { color: #666; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="mint-box">
+        <h1>🎨 NFT Collection</h1>
+        <img src="nft-preview.jpg" alt="NFT" style="width:200px; border-radius:10px;">
+        <p class="price">Price: 0.001 ETH</p>
+        <p>Limited Edition - Get yours now!</p>
+        
+        <button id="mint-btn">🎯 Mint NFT</button>
+        
+        <p style="font-size:12px; color:#999; margin-top:20px;">
+            NFT will be added to your MetaMask automatically
+        </p>
+    </div>
+    
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
+    <script>
+        const CONTRACT_ADDRESS = '0x97e78142C89F9aA925E20E7BacE041464Fd832E0';
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        // Add your contract ABI here
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, [], signer);
+        let userAddress;
+        
+        window.ethereum.request({ method: 'eth_requestAccounts' })
+            .then(accounts => userAddress = accounts[0]);
+    </script>
+    <script src="frontend/simpleMint.js"></script>
+</body>
+</html> 

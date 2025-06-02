@@ -34,28 +34,32 @@ module.exports = {
         version: "0.8.20",
         settings: { optimizer: { enabled: true, runs: 200 } }
       },
+      {
+        version: "0.8.18",
+        settings: { optimizer: { enabled: true, runs: 200 } }
+      },
      ],
   },
   networks: {
-    RiseChain: {
+    MonadChain: {
       url: process.env.URL ,
       accounts: [process.env.PRIVATE_KEY] ,
-      chainId: 11155931,
+      chainId: 10143,
     },
   },
-  etherscan: {
-    apiKey: {
-      'rise-testnet': 'empty'
-    },
-    customChains: [
-      {
-        network: "rise-testnet",
-        chainId: 11155931,
-        urls: {
-          apiURL: "https://explorer.testnet.riselabs.xyz/api",
-          browserURL: "https://explorer.testnet.riselabs.xyz"
-        }
-      }
-    ]
-  }
+  // etherscan: {
+  //   apiKey: {
+  //     'tabi-testnet': 'empty'
+  //   },
+  //   customChains: [
+  //     {
+  //       network: "tabi-testnet",
+  //       chainId: 9788,
+  //       urls: {
+  //         apiURL: "https://tabiv2-test.tabiscan.com/api",
+  //         browserURL: "https://testnetv2.tabiscan.com:2233"
+  //       }
+  //     }
+  //   ]
+  // }
 };

@@ -1,8 +1,8 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
 
-const testDexFarmAddress = "0x80155a8BD80036f21e515df8952Fec3FeE66e6C7";
-const TTTAddress = "0x6746892382466aF4ba465c5Ff3F6379A92Fa922c"; // Thay bằng địa chỉ token chính xác
+const testDexFarmAddress = "0xb7B5B55Ef5449148c3160bA460b8B954dB1E3064";
+const TTTAddress = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; // Thay bằng địa chỉ token chính xác
 
 const testDexFarmABI = [
   {
@@ -904,7 +904,7 @@ const testDexFarmABI = [
             "type": "bool"
           }
         ],
-        "internalType": "struct testDEXFarm.PoolInfo",
+        "internalType": "struct tabiSwapFarm.PoolInfo",
         "name": "pool",
         "type": "tuple"
       }
@@ -1624,4 +1624,4 @@ const userAddress = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8"; // Thay bằng
 testHarvest(pid, userAddress);
 
 
-// npx hardhat run test/TestDexFarm/HarvestTest.js --network RiseChain
+// npx hardhat run test/TestDexFarm/HarvestTest.js --network TabiChain

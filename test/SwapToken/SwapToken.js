@@ -3,12 +3,12 @@ require("dotenv").config();
 
 // Thông tin mạng và smart contract
 const provider = new ethers.providers.JsonRpcProvider(process.env.URL); // RPC của ETHChain
-const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Thay PRIVATE_KEY bằng private key của bạn
+const signer = new ethers.Wallet("de1fb4c23bbd4ab579e6a2905b7a99a9c2334dd6c2a639bcfc21d223d87f1199", provider); // Thay PRIVATE_KEY bằng private key của bạn
 
-const FACTORY_ADDRESS = "0xC4E5b6f7e5cd88455d2DA4acfC2d4C6206f9C92C"; // Địa chỉ Factory Contract
-const ROUTER_ADDRESS = "0x8408A9FEe31a4B78632f27c1223b5574d6d68054"; // Địa chỉ Router Contract
-const WETH = "0x701855ae3a8b2A989DC8ACCf02Dd2b96f8B21671"; // Địa chỉ WETH
-const TOKEN_B = "0x6746892382466aF4ba465c5Ff3F6379A92Fa922c"; // Địa chỉ TTT
+const FACTORY_ADDRESS = "0x475251A9411CbD033DD7BB12420D1C9f1f344c49"; // Địa chỉ Factory Contract
+const ROUTER_ADDRESS = "0xd87660A0E36A1a93190D30FDA0525822cbAE9Fd2"; // Địa chỉ Router Contract
+const WTABI = "0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701"; // Địa chỉ WTABI
+const TOKEN_B = "0x009338701027A7D06fF4493EFb292B31B33B390a"; // Địa chỉ TBS
 
 
 const factoryABI = [
@@ -235,6 +235,25 @@ const routerABI = [
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "swapCount",
+        "type": "uint256"
+      }
+    ],
+    "name": "SwapMilestone",
+    "type": "event"
   },
   {
     "inputs": [],
@@ -481,6 +500,25 @@ const routerABI = [
         "internalType": "uint256[]",
         "name": "amounts",
         "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      }
+    ],
+    "name": "getUserSwapCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -1188,11 +1226,30 @@ const routerABI = [
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "userSwapCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "stateMutability": "payable",
     "type": "receive"
   }
 ];  // ABI của Router Contract
-const WETH_ABI = [
+const WTABI_ABI = [
   {
       "anonymous": false,
       "inputs": [
@@ -1482,7 +1539,7 @@ const WETH_ABI = [
       "type": "receive"
   }
 ];
-const TTT_ABI = [
+const TBS_ABI =  [
   {
     "inputs": [
       {
@@ -2024,19 +2081,19 @@ const TTT_ABI = [
 ];
 const factoryContract = new ethers.Contract(FACTORY_ADDRESS, factoryABI, signer);
 const routerContract = new ethers.Contract(ROUTER_ADDRESS, routerABI, signer);
-const tokenContractA = new ethers.Contract(WETH, WETH_ABI, signer);
-const tokenContractB = new ethers.Contract(TOKEN_B, TTT_ABI, signer);
+const tokenContractA = new ethers.Contract(WTABI, WTABI_ABI, signer);
+const tokenContractB = new ethers.Contract(TOKEN_B, TBS_ABI, signer);
 
 async function checkOrCreatePair() {
-    console.log("\n🔍 Kiểm tra cặp thanh khoản WETH-TTT...");
+    console.log("\n🔍 Kiểm tra cặp thanh khoản WTABI-TBS...");
 
-    const pairAddress = await factoryContract.getPair(WETH, TOKEN_B);
+    const pairAddress = await factoryContract.getPair(WTABI, TOKEN_B);
     console.log(`📌 Địa chỉ cặp: ${pairAddress}`);
 
     if (pairAddress === ethers.constants.AddressZero) {
         console.log("⚠️ Cặp thanh khoản chưa tồn tại. Đang tạo cặp...");
         try {
-            const tx = await factoryContract.createPair(WETH, TOKEN_B);
+            const tx = await factoryContract.createPair(WTABI, TOKEN_B);
             console.log(`📌 Giao dịch tạo cặp đang chờ xác nhận: ${tx.hash}`);
             await tx.wait();
             console.log("✅ Cặp thanh khoản đã được tạo thành công!");
@@ -2054,75 +2111,75 @@ async function approveTokens() {
     const amount = ethers.constants.MaxUint256;
     const userAddress = await signer.getAddress();
 
-    // Kiểm tra & cấp quyền cho WETH (WETH)
+    // Kiểm tra & cấp quyền cho WTABI (WTABI)
     let allowanceA = await tokenContractA.allowance(userAddress, ROUTER_ADDRESS);
-    console.log(`🔎 Quyền hạn hiện tại của WETH: ${allowanceA.toString()}`);
+    console.log(`🔎 Quyền hạn hiện tại của WTABI: ${allowanceA.toString()}`);
 
     if (allowanceA.lt(amount)) {
-        console.log("🔄 Đang approve WETH...");
+        console.log("🔄 Đang approve WTABI...");
         try {
             let txA = await tokenContractA.approve(ROUTER_ADDRESS, amount);
-            console.log(`📌 Giao dịch approve WETH: ${txA.hash}`);
+            console.log(`📌 Giao dịch approve WTABI: ${txA.hash}`);
             await txA.wait();
-            console.log("✅ WETH đã được cấp quyền!");
+            console.log("✅ WTABI đã được cấp quyền!");
         } catch (error) {
-            console.error("❌ Lỗi khi approve WETH:", error);
+            console.error("❌ Lỗi khi approve WTABI:", error);
         }
     } else {
-        console.log("✅ WETH đã được approve sẵn!");
+        console.log("✅ WTABI đã được approve sẵn!");
     }
 
-    // Kiểm tra & cấp quyền cho TOKEN_B (TTT)
+    // Kiểm tra & cấp quyền cho TOKEN_B (TBS)
     let allowanceB = await tokenContractB.allowance(userAddress, ROUTER_ADDRESS);
-    console.log(`🔎 Quyền hạn hiện tại của TTT: ${allowanceB.toString()}`);
+    console.log(`🔎 Quyền hạn hiện tại của TBS: ${allowanceB.toString()}`);
 
     if (allowanceB.lt(amount)) {
-        console.log("🔄 Đang approve TTT...");
+        console.log("🔄 Đang approve TBS...");
         try {
             let txB = await tokenContractB.approve(ROUTER_ADDRESS, amount);
-            console.log(`📌 Giao dịch approve TTT: ${txB.hash}`);
+            console.log(`📌 Giao dịch approve TBS: ${txB.hash}`);
             await txB.wait();
-            console.log("✅ TTT đã được cấp quyền!");
+            console.log("✅ TBS đã được cấp quyền!");
         } catch (error) {
-            console.error("❌ Lỗi khi approve TTT:", error);
+            console.error("❌ Lỗi khi approve TBS:", error);
         }
     } else {
-        console.log("✅ TTT đã được approve sẵn!");
+        console.log("✅ TBS đã được approve sẵn!");
     }
 }
 
-async function checkTokenBalances() {
-    console.log("\n💰 Kiểm tra số dư token...");
-    const userAddress = await signer.getAddress();
+// async function checkTokenBalances() {
+//     console.log("\n💰 Kiểm tra số dư token...");
+//     const userAddress = await signer.getAddress();
     
-    const balanceA = await tokenContractA.balanceOf(userAddress);
-    const balanceB = await tokenContractB.balanceOf(userAddress);
+//     const balanceA = await tokenContractA.balanceOf(userAddress);
+//     const balanceB = await tokenContractB.balanceOf(userAddress);
     
-    console.log(`📌 Số dư WETH: ${ethers.utils.formatUnits(balanceA, 18)}`);
-    console.log(`📌 Số dư TTT: ${ethers.utils.formatUnits(balanceB, 18)}`);
+//     console.log(`📌 Số dư WTABI: ${ethers.utils.formatUnits(balanceA, 18)}`);
+//     console.log(`📌 Số dư TBS: ${ethers.utils.formatUnits(balanceB, 18)}`);
     
-    const amountA = ethers.utils.parseUnits("0.000001", 18);
-    const amountB = ethers.utils.parseUnits("1000", 18);
+//     const amountA = ethers.utils.parseUnits("0.000000001", 18);
+//     const amountB = ethers.utils.parseUnits("1000", 18);
     
-    if (balanceA.lt(amountA)) {
-        console.error(`❌ Không đủ WETH. Cần: ${ethers.utils.formatUnits(amountA, 18)}, Có: ${ethers.utils.formatUnits(balanceA, 18)}`);
-        return false;
-    }
+//     if (balanceA.lt(amountA)) {
+//         console.error(`❌ Không đủ WTABI. Cần: ${ethers.utils.formatUnits(amountA, 18)}, Có: ${ethers.utils.formatUnits(balanceA, 18)}`);
+//         return false;
+//     }
     
-    if (balanceB.lt(amountB)) {
-        console.error(`❌ Không đủ TTT. Cần: ${ethers.utils.formatUnits(amountB, 18)}, Có: ${ethers.utils.formatUnits(balanceB, 18)}`);
-        return false;
-    }
+//     if (balanceB.lt(amountB)) {
+//         console.error(`❌ Không đủ TBS. Cần: ${ethers.utils.formatUnits(amountB, 18)}, Có: ${ethers.utils.formatUnits(balanceB, 18)}`);
+//         return false;
+//     }
     
-    return true;
-}
+//     return true;
+// }
 
 async function swapETHForExactTokens() {
     console.log("\n🔄 Thực hiện swap ETH for exact tokens...");
 
     const userAddress = await signer.getAddress();
-    const amountOut = ethers.utils.parseUnits("100", 18);  // Số lượng token bạn muốn nhận
-    const path = [WETH, TOKEN_B];  // Đường dẫn từ WETH đến token đích (ví dụ: TTT)
+    const amountOut = ethers.utils.parseUnits("1000", 18);  // Số lượng token bạn muốn nhận
+    const path = [WTABI, TOKEN_B];  // Đường dẫn từ WTABI đến token đích (ví dụ: TBS)
     const deadline = Math.floor(Date.now() / 1000) + 60 * 10;  // Hạn chót (10 phút từ bây giờ)
 
     try {
@@ -2149,7 +2206,7 @@ async function swapETHForExactTokens() {
             await tx.wait();
             console.log("✅ ETH đã được approve!");
         }
-
+        const feeData = await provider.getFeeData();
         // Thực hiện swap
         const tx = await routerContract.swapExactETHForTokens(
             amountOut,
@@ -2157,9 +2214,10 @@ async function swapETHForExactTokens() {
             userAddress,
             deadline,
             {
-                value: amountETHIn,
-                gasLimit: 1000000,
-                gasPrice: ethers.utils.parseUnits("10", "gwei"),
+              value: amountETHIn,
+              gasLimit: ethers.utils.hexlify(500000), // hoặc ethers.utils.parseUnits("500000", "wei")
+              maxFeePerGas: feeData.maxFeePerGas || ethers.utils.parseUnits("20", "gwei"),
+              maxPriorityFeePerGas: feeData.maxPriorityFeePerGas || ethers.utils.parseUnits("2", "gwei"),
             }
         );
 
@@ -2172,17 +2230,64 @@ async function swapETHForExactTokens() {
     }
 }
 
+// async function swapTbsToTabi() {
+//   const userAddress = await signer.getAddress();
+//   const amountIn = ethers.utils.parseUnits("10000", 18);  // số TBS bạn muốn swap
+//   const path = [TOKEN_B, WTABI];  // TOKEN_B là TBS, WETH_ADDRESS là địa chỉ "Wrapped native coin" (ví dụ WETH trên ETH, WBNB trên BSC)
+
+//   const deadline = Math.floor(Date.now() / 1000) + 60 * 10;
+
+//   // Kiểm tra số dư TBS
+//   const balanceToken = await tokenContractB.balanceOf(userAddress);
+//   if (balanceToken.lt(amountIn)) {
+//     console.error("❌ Số dư TBS không đủ!");
+//     return;
+//   }
+
+//   // Cấp phép (approve) cho router nếu chưa có
+//   const allowance = await tokenContractB.allowance(userAddress, ROUTER_ADDRESS);
+//   if (allowance.lt(amountIn)) {
+//     const txApprove = await tokenContractB.approve(ROUTER_ADDRESS, amountIn);
+//     await txApprove.wait();
+//   }
+
+//   // Tính toán minAmountOut với trượt giá 5%
+//   const amountsOut = await routerContract.getAmountsOut(amountIn, path);
+//   const minAmountOut = amountsOut[1].mul(95).div(100);
+
+//   // Thực hiện swap từ token sang native coin
+//   const tx = await routerContract.swapExactTokensForETH(
+//     amountIn,
+//     minAmountOut,
+//     path,
+//     userAddress,
+//     deadline,
+//     {
+//       gasLimit: 1000000,
+//       gasPrice: ethers.utils.parseUnits("10", "gwei"),
+//     }
+//   );
+
+//   console.log(`📌 Giao dịch swap đang chờ xác nhận: ${tx.hash}`);
+//   const receipt = await tx.wait();
+//   console.log(`✅ Swap thành công! Block Number: ${receipt.blockNumber}`);
+
+//   const balanceA = await tokenContractA.balanceOf(userAddress);
+//   console.log(`📌 Số dư WTABI: ${ethers.utils.formatUnits(balanceA, 18)}`);
+
+//   // Kiểm tra số dư native coin (Tabi) sau swap
+//   const balanceTabi = await provider.getBalance(userAddress);
+//   console.log("🧾 Số dư TABI hiện tại:", ethers.utils.formatEther(balanceTabi));
+// }
+
+
+
 async function main() {
     try {
         await checkOrCreatePair();
         await approveTokens();
 
-        const success = await checkTokenBalances();
-        if (!success) {
-            console.log("❌ Kiểm tra số dư thất bại. Dừng quá trình.");
-            return;
-        }
-        
+       
         await swapETHForExactTokens();
     } catch (error) {
         console.error("❌ Lỗi chính:", error.message);
@@ -2192,4 +2297,4 @@ async function main() {
 main();
 
 
-// npx hardhat run test/SwapToken/SwapToken.js --network RiseChain
+// npx hardhat run test/SwapToken/SwapToken.js --network MonadChain

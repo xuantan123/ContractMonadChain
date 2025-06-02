@@ -2,8 +2,8 @@ const { ethers } = require("ethers");
 require("dotenv").config();
 
 
-const TTTAddress = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8"; // Thay bằng địa chỉ token chính xác
-const TTT_ABI = [
+const TTTAddress = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; // Thay bằng địa chỉ token chính xác
+const TTT_ABI =  [
   {
     "inputs": [
       {
@@ -543,7 +543,6 @@ const TTT_ABI = [
     "type": "function"
   }
 ];
-
 const provider = new ethers.providers.JsonRpcProvider(process.env.URL); // Thay bằng RPC chính xác
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Thay bằng private key (hoặc dùng .env)
 const signer = wallet.connect(provider);
@@ -551,7 +550,7 @@ const signer = wallet.connect(provider);
 async function main() {
     const TestDEXToken = new ethers.Contract(TTTAddress, TTT_ABI, signer);
 
-    const transferTx = await TestDEXToken.transfer("0x80155a8BD80036f21e515df8952Fec3FeE66e6C7", ethers.utils.parseUnits("1000000", 18));
+    const transferTx = await TestDEXToken.transfer("0xf39ead9D924336766e01167A52f4A23444F79Ef7", ethers.utils.parseUnits("1000000", 18));
     await transferTx.wait();
     console.log("✅ Đã chuyển 1,000,000 TTT vào TestDEXFarm!");
 
@@ -560,4 +559,4 @@ main().catch((error) => {
     console.error("❌ Lỗi:", error);
   });
 
-// npx hardhat run test/tranferTokenTTT.js --network RiseChain
+// npx hardhat run test/tranferTokenTTT.js --network TabiChain

@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 
 // Địa chỉ contract
-const testDexFarmAddress = "0x80155a8BD80036f21e515df8952Fec3FeE66e6C7"; // testDexFarm
+const testDexFarmAddress = "0xb7B5B55Ef5449148c3160bA460b8B954dB1E3064"; // testDexFarm
 
 const testDexFarmABI = [
   {
@@ -903,7 +903,7 @@ const testDexFarmABI = [
             "type": "bool"
           }
         ],
-        "internalType": "struct testDEXFarm.PoolInfo",
+        "internalType": "struct tabiSwapFarm.PoolInfo",
         "name": "pool",
         "type": "tuple"
       }
@@ -1040,4 +1040,4 @@ async function main() {
     console.error("❌ Lỗi:", error);
   });
   
-// npx hardhat run test/testDexFarm/TestDexFarm.withdraw.js --network RiseChain
+// npx hardhat run test/testDexFarm/TestDexFarm.withdraw.js --network TabiChain

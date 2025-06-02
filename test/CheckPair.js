@@ -6,9 +6,9 @@ const provider = new ethers.providers.JsonRpcProvider(process.env.URL);
 const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
 // Contract addresses
-const FACTORY_ADDRESS = "0xaDbD663D259D075AAD80B38d716a64939496784E";
-const TOKEN_A = "0x493ea9950586033ea8894b5e684bb4df6979a0d3"; // Địa chỉ WA0GI
-const TOKEN_B = "0xF597cE99bc20F6cBe752982dB362B78B84b5690C"; // Địa chỉ A0GIW
+const FACTORY_ADDRESS = "0x6D6945B12E04bC1eEF079E29Ce829F82c44a3bb7";
+const TOKEN_A = "0x212C03945a6169A23BE4e5aCA421376e0De62836"; // Địa chỉ WA0GI
+const TOKEN_B = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; // Địa chỉ A0GIW
 
 // Factory ABI
 const factoryABI = [
@@ -256,4 +256,4 @@ main().catch(error => {
   console.error(`\n❌ Fatal error:`, error.message);
 }); 
 
-// npx hardhat run test/CheckPair.js --network ZeroGravityChain
+// npx hardhat run test/CheckPair.js --network TabiChain

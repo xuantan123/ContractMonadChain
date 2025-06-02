@@ -4,15 +4,15 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   console.log(`Deploying Staking Contract with account: ${deployer.address}`);
 
-  const tokenAddress = "0x6746892382466aF4ba465c5Ff3F6379A92Fa922c"; // token TTT
-  const masterchefV2Address = "0x80155a8BD80036f21e515df8952Fec3FeE66e6C7"; // Địa chỉ Farm
+  const tokenAddress = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; // token TTT
+  const masterchefV2Address = "0xb7B5B55Ef5449148c3160bA460b8B954dB1E3064"; // Địa chỉ Farm
   const adminAddress = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8";
   const treasuryAddress = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8"; // Cùng admin
   const operatorAddress = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8"; // Cùng admin
   const pid = 1;
 
   // Deploy contract Staking
-  const StakingContract = await ethers.getContractFactory("testDEXPool");
+  const StakingContract = await ethers.getContractFactory("tabiSwapPool");
   const staking = await StakingContract.deploy(
     tokenAddress,
     masterchefV2Address,
@@ -33,4 +33,4 @@ main()
     process.exit(1);
   });
 
-  //   npx hardhat run scripts/deploytestDEXStake.js --network RiseChain
+  //   npx hardhat run scripts/deploytestDEXStake.js --network TabiChain

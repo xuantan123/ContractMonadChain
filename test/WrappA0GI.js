@@ -8,7 +8,7 @@ const privateKey = process.env.PRIVATE_KEY;
 const wallet = new ethers.Wallet(privateKey, provider);
 
 // 🏦 Địa chỉ hợp đồng WETH (Token ERC-20)
-const WETHContractAddress = "0x701855ae3a8b2A989DC8ACCf02Dd2b96f8B21671"; 
+const WETHContractAddress = "0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701"; 
 
 const WETH_ABI = [
   {
@@ -320,10 +320,10 @@ async function wrapA0GI(amount) {
 }
   
 // 💰 Nhập số lượng ETH muốn wrap (Ví dụ: 0.1 ETH)
-const amountToWrap = ethers.utils.parseEther("0.0001"); // 0.1 ETH
+const amountToWrap = ethers.utils.parseEther("0.5"); // 0.1 ETH
 
 // 🚀 Thực hiện wrap ETH -> WETH
 wrapA0GI(amountToWrap);
 
 
-// npx hardhat run test/WrappA0GI.js --network RiseChain
+// npx hardhat run test/WrappA0GI.js --network MonadChain

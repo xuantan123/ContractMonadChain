@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 
 async function main() {
-    const factoryAddress = "0xC4E5b6f7e5cd88455d2DA4acfC2d4C6206f9C92C"; 
+    const factoryAddress = "0x475251A9411CbD033DD7BB12420D1C9f1f344c49"; 
 
     const factoryABI = [
       {
@@ -228,4 +228,4 @@ main()
         process.exit(1);
     });
 
-// npx hardhat run scripts/getInitCodeHash.js --network RiseChain
+// npx hardhat run scripts/getInitCodeHash.js --network MonadChain

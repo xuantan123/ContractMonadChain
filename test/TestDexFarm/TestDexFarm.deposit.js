@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 
-const testDexFarmAddress = "0x80155a8BD80036f21e515df8952Fec3FeE66e6C7"; //contract Farm
-const lpTokenAddress = "0x8fcE7aBF8e1F442b00C580b84F1Bb99e13dB1DF5"; //contract Pair
+const tabiSwapFarmAddress = "0xb7B5B55Ef5449148c3160bA460b8B954dB1E3064"; //contract Farm
+const lpTokenAddress = "0x7C0BA717086037735E7bb407C49c2E4b00B9cd00"; //contract Pair
 
 const testDexFarmABI = [
   {
@@ -903,7 +903,7 @@ const testDexFarmABI = [
             "type": "bool"
           }
         ],
-        "internalType": "struct testDEXFarm.PoolInfo",
+        "internalType": "struct tabiSwapFarm.PoolInfo",
         "name": "pool",
         "type": "tuple"
       }
@@ -1008,7 +1008,7 @@ const ERC20_ABI = [
 
 async function main() {
   const [signer] = await ethers.getSigners();
-  const testDexFarm = new ethers.Contract(testDexFarmAddress, testDexFarmABI, signer);
+  const testDexFarm = new ethers.Contract(tabiSwapFarmAddress, testDexFarmABI, signer);
   const lpToken = new ethers.Contract(lpTokenAddress, ERC20_ABI, signer);
 
   let totalPools = await testDexFarm.poolLength();
@@ -1058,10 +1058,10 @@ async function main() {
 
   const amount = ethers.utils.parseUnits("0.0001", 18);
   console.log(`⏳ Granting permission to send ${ethers.utils.formatUnits(amount, 18)} LP Token into testDexFarm...`);
-  tx = await lpToken.approve(testDexFarmAddress, amount);
+  tx = await lpToken.approve(tabiSwapFarmAddress, amount);
   await tx.wait();
   console.log("✅ Permission granted!");
-  let farmBalance = await lpToken.balanceOf(testDexFarmAddress);
+  let farmBalance = await lpToken.balanceOf(tabiSwapFarmAddress);
   console.log(`📦 LP Token Balance in Farm: ${ethers.utils.formatUnits(farmBalance, 18)}`);
 
 
@@ -1082,4 +1082,4 @@ main().catch((error) => {
 });
 
 
-// npx hardhat run test/testDexFarm/testDexFarm.deposit.js --network RiseChain 
+// npx hardhat run test/testDexFarm/testDexFarm.deposit.js --network TabiChain 
