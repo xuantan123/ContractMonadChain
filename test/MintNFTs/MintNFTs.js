@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 
 // Thay đổi address contract đã deploy
-const contractAddress = "0xdad5cB7216435956b42aFfb58675CD5Bc3436d04";
+const contractAddress = "0x3c335cc233EAAf4Cb450f6a1f65A91dD09820641";
 
 async function main() {
   const [deployer] = await ethers.getSigners();
@@ -11,9 +11,9 @@ async function main() {
   const liPage = LiPage.attach(contractAddress);
 
   const tokenId = 1;
-  const maxSupply = 100;
-  const startHour = 9;
-  const startMinute = 37;
+  const maxSupply = 100000;
+  const startHour = 7;
+  const startMinute = 15;
 
   const now = new Date();
     now.setUTCHours(startHour);
@@ -22,7 +22,7 @@ async function main() {
     now.setUTCMilliseconds(0);
 
   const startTimestamp = Math.floor(now.getTime() / 1000); // unix timestamp theo GMT+7
-  const duration = 10 * 60;
+  const duration = 30 * 24 * 60 * 60;
 
   console.log("Start Timestamp:", startTimestamp);
   console.log("Duration (seconds):", duration);

@@ -5,7 +5,7 @@ async function main() {
 
     const tabiSwapFarm = await ethers.getContractFactory("tabiSwapFarm");
 
-    const CAKE_ADDRESS = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; //TTT (token)
+    const CAKE_ADDRESS = "0xf7E259629aFC7A1739C306D48B7Aee32b805A0dd"; //TTT (token)
 
     const BURN_ADMIN_ADDRESS = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8";  //wallet address admin
 
@@ -21,4 +21,4 @@ main()
         console.error("Error during deployment:", error);
         process.exit(1);
     });
-// npx hardhat run scripts/deploytabiSwapFarm.js --network TabiChain
+// npx hardhat run scripts/deploytabiSwapFarm.js --network MonadChain

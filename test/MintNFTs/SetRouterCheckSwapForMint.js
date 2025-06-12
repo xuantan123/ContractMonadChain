@@ -5,10 +5,10 @@ require("dotenv").config();
 const provider = new ethers.providers.JsonRpcProvider(process.env.URL); // RPC của ETHChain
 const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Thay PRIVATE_KEY bằng private key của bạn
 
-const MintNFTs = "0xdad5cB7216435956b42aFfb58675CD5Bc3436d04"; // Địa chỉ Router Contract
+const MintNFTs = "0x3c335cc233EAAf4Cb450f6a1f65A91dD09820641"; // Địa chỉ Router Contract
 
 // You need the ACTUAL TabiSwap Router address, not user address
-const TABI_SWAP_ROUTER_ADDRESS = "0x98cBFBd85C84A5047AeA54d4434496eEE68aC371"; // Replace with real router
+const TABI_SWAP_ROUTER_ADDRESS = "0x2285102a7Bbea45A1A62cdD1d9019BcC27F77f44"; // Replace with real router
 
 const MintNFTs_ABI = [
   {

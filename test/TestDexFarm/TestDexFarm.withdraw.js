@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 
 // Địa chỉ contract
-const testDexFarmAddress = "0xb7B5B55Ef5449148c3160bA460b8B954dB1E3064"; // testDexFarm
+const testDexFarmAddress = "0xe14943a7ea21A35b531eFfA2BCbb3d8581c081BC"; // testDexFarm
 
 const testDexFarmABI = [
   {
@@ -1006,7 +1006,7 @@ async function main() {
     const [signer] = await ethers.getSigners();
     const testDexFarm = new ethers.Contract(testDexFarmAddress, testDexFarmABI, signer);
   
-    const pid = 1;
+    const pid = 2;
     const pool = await testDexFarm.poolInfo(pid);
 
   console.log(`🔍 Pool #${pid} Info:`);
@@ -1040,4 +1040,4 @@ async function main() {
     console.error("❌ Lỗi:", error);
   });
   
-// npx hardhat run test/testDexFarm/TestDexFarm.withdraw.js --network TabiChain
+// npx hardhat run test/testDexFarm/TestDexFarm.withdraw.js --network MonadChain

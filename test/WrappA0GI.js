@@ -7,10 +7,10 @@ const provider = new ethers.providers.JsonRpcProvider(process.env.URL);
 const privateKey = process.env.PRIVATE_KEY; 
 const wallet = new ethers.Wallet(privateKey, provider);
 
-// 🏦 Địa chỉ hợp đồng WETH (Token ERC-20)
-const WETHContractAddress = "0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701"; 
+// 🏦 Địa chỉ hợp đồng WMON (Token ERC-20)
+const WMONContractAddress = "0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701"; 
 
-const WETH_ABI = [
+const WMON_ABI = [
   {
       "anonymous": false,
       "inputs": [
@@ -300,19 +300,19 @@ const WETH_ABI = [
       "type": "receive"
   }
 ];
-const WETHContract = new ethers.Contract(WETHContractAddress, WETH_ABI, wallet);
+const WMONContract = new ethers.Contract(WMONContractAddress, WMON_ABI, wallet);
 
 async function wrapA0GI(amount) {
     try {
-        console.log(`🔄 Wrapping ${ethers.utils.formatEther(amount)} ETH to WETH...`);
+        console.log(`🔄 Wrapping ${ethers.utils.formatEther(amount)} ETH to WMON...`);
 
-        // 📝 Gửi giao dịch để wrap ETH thành WETH
-        const tx = await WETHContract.deposit({ value: amount });
+        // 📝 Gửi giao dịch để wrap ETH thành WMON
+        const tx = await WMONContract.deposit({ value: amount });
         console.log(`📜 Giao dịch gửi đi: ${tx.hash}`);
 
         // ⏳ Chờ giao dịch được xác nhận
         await tx.wait();
-        console.log("✅ ETH đã được wrap thành WETH thành công!");
+        console.log("✅ ETH đã được wrap thành WMON thành công!");
 
     } catch (error) {
         console.error("❌ Lỗi wrap ETH:", error);
@@ -322,7 +322,7 @@ async function wrapA0GI(amount) {
 // 💰 Nhập số lượng ETH muốn wrap (Ví dụ: 0.1 ETH)
 const amountToWrap = ethers.utils.parseEther("0.5"); // 0.1 ETH
 
-// 🚀 Thực hiện wrap ETH -> WETH
+// 🚀 Thực hiện wrap ETH -> WMON
 wrapA0GI(amountToWrap);
 
 

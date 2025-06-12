@@ -4,11 +4,11 @@ async function main() {
   const [deployer] = await hre.ethers.getSigners(); 
   console.log(`Deploying contracts with the account: ${deployer.address}`);
 
-  const factory = "0x475251A9411CbD033DD7BB12420D1C9f1f344c49";
-  const WA0GIAddress = "0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701"; 
+  const factory = "0xF597D0495B78C06B9c4c16ebA4620b20F68d9942";
+  const WMONAddress = "0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701"; 
 
   const tabiSwapSwapRouter = await hre.ethers.getContractFactory("tabiSwapChainRouter");
-  const router = await tabiSwapSwapRouter.deploy(factory, WA0GIAddress);
+  const router = await tabiSwapSwapRouter.deploy(factory, WMONAddress);
   await router.deployed();
   console.log("Router deployed at:", router.address);
 

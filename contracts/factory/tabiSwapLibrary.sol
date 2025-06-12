@@ -29,7 +29,7 @@ library tabiSwapLibrary {
                         hex"ff",
                         factory,
                         keccak256(abi.encodePacked(token0, token1)),
-                        hex"6e11c94162bb1bc0c8cf51c4ec1bda3395228cb14660e78251a153bd6908dcd3" // init code hash
+                        hex"6b893ef59304506887e9286b4f0215d5d09a1314a6e1db41cdb1003a19f6ab55" // init code hash
                     )
                 )
             )

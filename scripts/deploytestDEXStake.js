@@ -4,8 +4,8 @@ async function main() {
   const [deployer] = await ethers.getSigners();
   console.log(`Deploying Staking Contract with account: ${deployer.address}`);
 
-  const tokenAddress = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; // token TTT
-  const masterchefV2Address = "0xb7B5B55Ef5449148c3160bA460b8B954dB1E3064"; // Địa chỉ Farm
+  const tokenAddress = "0xf7E259629aFC7A1739C306D48B7Aee32b805A0dd"; // token TTT
+  const masterchefV2Address = "0x8321101383d1E74EA9Cd8abAb2B9B4D9ffc39B7c"; // Địa chỉ Farm
   const adminAddress = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8";
   const treasuryAddress = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8"; // Cùng admin
   const operatorAddress = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8"; // Cùng admin
@@ -33,4 +33,4 @@ main()
     process.exit(1);
   });
 
-  //   npx hardhat run scripts/deploytestDEXStake.js --network TabiChain
+  //   npx hardhat run scripts/deploytestDEXStake.js --network MonadChain

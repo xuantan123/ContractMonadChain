@@ -6,9 +6,9 @@ async function main() {
 
   const LiPage = await ethers.getContractFactory("LiPage");
 
-  const name = "Monad NFTs";
-  const symbol = "MonadTestnet";
-  const baseURI = "https://plum-solid-ferret-699.mypinata.cloud/ipfs/bafybeihl3ouxmt5tpxj7zn6duw3b7xmdl7stxuigjg6bddyrrxnkklv47i/";
+  const name = "TestDEX";
+  const symbol = "tDEX";
+  const baseURI = "https://plum-solid-ferret-699.mypinata.cloud/ipfs/bafybeibjfnzcwqoo3aahdqgsikqrbgizfb4bqrx5hl3h2dpsqgqyjn73dq/";
   const royaltyAmount = 500;
   const paymentReceiver = deployer.address;
   const mintFee = ethers.utils.parseEther("0.0001");

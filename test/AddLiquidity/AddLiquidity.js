@@ -5,10 +5,10 @@ require("dotenv").config();
 const provider = new ethers.providers.JsonRpcProvider(process.env.URL); // RPC của TBSChain
 const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Thay PRIVATE_KEY bằng private key của bạn
 
-const FACTORY_ADDRESS = "0x475251A9411CbD033DD7BB12420D1C9f1f344c49"; // Địa chỉ Factory Contract
-const ROUTER_ADDRESS = "0xd87660A0E36A1a93190D30FDA0525822cbAE9Fd2"; // Địa chỉ Router Contract
+const FACTORY_ADDRESS = "0xF597D0495B78C06B9c4c16ebA4620b20F68d9942"; // Địa chỉ Factory Contract
+const ROUTER_ADDRESS = "0x73AeB496F02b002Ce6D2B7E07819aCE6d5A1C3F9"; // Địa chỉ Router Contract
 const TOKEN_A = "0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701"; // Địa chỉ WTABI
-const TOKEN_B = "0x009338701027A7D06fF4493EFb292B31B33B390a"; // Địa chỉ TBS
+const TOKEN_B = "0xf7E259629aFC7A1739C306D48B7Aee32b805A0dd"; // Địa chỉ TBS
 
 
 const factoryABI = [
@@ -2085,7 +2085,7 @@ const tokenContractA = new ethers.Contract(TOKEN_A, WTABI_ABI, signer);
 const tokenContractB = new ethers.Contract(TOKEN_B, TBS_ABI, signer);
 
 async function checkOrCreatePair() {
-    console.log("\n🔍 Kiểm tra cặp thanh khoản WTABI-TBS...");
+    console.log("\n🔍 Kiểm tra cặp thanh khoản WMON-tDEX...");
 
     const pairAddress = await factoryContract.getPair(TOKEN_A, TOKEN_B);
     console.log(`📌 Địa chỉ cặp: ${pairAddress}`);

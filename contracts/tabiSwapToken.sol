@@ -257,8 +257,8 @@ contract TabiSwapWorld is IERC20, Ownable {
     string private _name;
 
     constructor(address initialOwner) Ownable(initialOwner) {
-        _name = "Tabiswap";
-        _symbol = "TBS";
+        _name = "TestDEX";
+        _symbol = "tDEX";
         _decimals = 18;
         _totalSupply = 10000000000 * (10 ** _decimals);
 

@@ -5,10 +5,10 @@ require("dotenv").config();
 const provider = new ethers.providers.JsonRpcProvider(process.env.URL); // RPC của TBSChain
 const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // Thay PRIVATE_KEY bằng private key của bạn
 
-const FACTORY_ADDRESS = "0x6D6945B12E04bC1eEF079E29Ce829F82c44a3bb7"; // Địa chỉ Factory Contract
-const ROUTER_ADDRESS = "0x4ACb452D4cC7FDc61dbFA0695f849D1d2aAfB4E2"; // Địa chỉ Router Contract
-const TOKEN_A = "0x212C03945a6169A23BE4e5aCA421376e0De62836"; // Địa chỉ USDC
-const TOKEN_B = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; // Địa chỉ TBS
+const FACTORY_ADDRESS = "0xF597D0495B78C06B9c4c16ebA4620b20F68d9942"; // Địa chỉ Factory Contract
+const ROUTER_ADDRESS = "0x73AeB496F02b002Ce6D2B7E07819aCE6d5A1C3F9"; // Địa chỉ Router Contract
+const TOKEN_A = "0xf817257fed379853cDe0fa4F97AB987181B1E5Ea"; // Địa chỉ USDC
+const TOKEN_B = "0xf7E259629aFC7A1739C306D48B7Aee32b805A0dd"; // Địa chỉ TBS
 
 
 const factoryABI = [
@@ -2037,11 +2037,11 @@ async function addLiquidity() {
     // Lấy địa chỉ người dùng
     const userAddress = await signer.getAddress();
     
-    const amountTokenA = ethers.utils.parseUnits("10", 18); // 10 USDC
-    const amountTokenB = ethers.utils.parseUnits("10000", 18); // 10,000 TBSI
+    const amountTokenA = ethers.utils.parseUnits("0.01", 6); // 10 USDC
+    const amountTokenB = ethers.utils.parseUnits("100000", 18); // 10,000 TBS
     
-    const amountTokenAMin = ethers.utils.parseUnits("9", 18);   // 90% USDC
-    const amountTokenBMin = ethers.utils.parseUnits("9000", 18); // 90% TBS
+    const amountTokenAMin = ethers.utils.parseUnits("0.009", 6);   // 90% USDC
+    const amountTokenBMin = ethers.utils.parseUnits("90000", 18); // 90% TBS
     
     // Tăng deadline lên 24 giờ
     const deadline = Math.floor(Date.now() / 1000) + 60 * 60 * 24;
@@ -2056,6 +2056,8 @@ async function addLiquidity() {
 
     try {
         console.log("🔄 Gửi giao dịch `addLiquidity`...");
+
+        const feeData = await provider.getFeeData();
         
         const tx = await routerContract.addLiquidity(
             TOKEN_A,              // USDC
@@ -2067,8 +2069,9 @@ async function addLiquidity() {
             userAddress,
             deadline,
             {
-                gasLimit: 300000,
-                gasPrice: ethers.utils.parseUnits("10", "gwei"),
+              gasLimit: ethers.utils.hexlify(500000), // hoặc ethers.utils.parseUnits("500000", "wei")
+              maxFeePerGas: feeData.maxFeePerGas || ethers.utils.parseUnits("20", "gwei"),
+              maxPriorityFeePerGas: feeData.maxPriorityFeePerGas || ethers.utils.parseUnits("2", "gwei"),
             }
         );
 
@@ -2102,4 +2105,4 @@ main().catch(error => {
 });
 
 
-// npx hardhat run test/AddLiquidity/AddLiquidityERC20.js --network TabiChain
+// npx hardhat run test/AddLiquidity/AddLiquidityERC20.js --network MonadChain

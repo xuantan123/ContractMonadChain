@@ -3,7 +3,7 @@ async function main() {
     console.log("Deploying contract with account:", deployer.address);
   
     const balance = await deployer.getBalance();
-    console.log("Account balance:", ethers.utils.formatEther(balance), "TABI");
+    console.log("Account balance:", ethers.utils.formatEther(balance), "MON");
   
     const Multicall = await ethers.getContractFactory("Multicall");
     const multicall = await Multicall.deploy();
@@ -18,4 +18,4 @@ async function main() {
   });
   
 
-// npx hardhat run scripts/deployMulticall.js --network TabiChain
+// npx hardhat run scripts/deployMulticall.js --network MonadChain

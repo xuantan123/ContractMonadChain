@@ -1,7 +1,7 @@
 const { ethers } = require("hardhat");
 
-const lpTokenAddress = "0x8fcE7aBF8e1F442b00C580b84F1Bb99e13dB1DF5";
-const testDEXFarmAddress = "0x80155a8BD80036f21e515df8952Fec3FeE66e6C7";
+const lpTokenAddress = "0xf1bD4F477f2F56b27503D333Ef057c54204Efdd5";
+const testDEXFarmAddress = "0x8321101383d1E74EA9Cd8abAb2B9B4D9ffc39B7c";
 
 const testDexFarmABI = [
   {
@@ -903,7 +903,7 @@ const testDexFarmABI = [
             "type": "bool"
           }
         ],
-        "internalType": "struct testDEXFarm.PoolInfo",
+        "internalType": "struct tabiSwapFarm.PoolInfo",
         "name": "pool",
         "type": "tuple"
       }
@@ -1002,7 +1002,8 @@ const testDexFarmABI = [
   }
 ];
 async function main() {
-  const [signer] = await ethers.getSigners();
+  const provider = new ethers.providers.JsonRpcProvider(process.env.URL); // RPC của TBSChain
+  const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider); 
 
   const testDEXFarm = new ethers.Contract(testDEXFarmAddress, testDexFarmABI, signer);
 
@@ -1035,16 +1036,16 @@ async function main() {
   } else {
     console.log("\n❌ Test Failed! Giá trị không đúng.");
   }
-  const poolInfo = await testDEXFarm.poolInfo(1);
-  console.log(`🔍 Pool #1 isRegular: ${poolInfo.isRegular}`);
+  const poolInfo = await testDEXFarm.poolInfo(2);
+  console.log(`🔍 Pool #2 isRegular: ${poolInfo.isRegular}`);
 
   if (poolInfo.isRegular) {
     console.log("\n🚀 Adding Special Pool...");
     const tx = await testDEXFarm.add(
-      20,               // allocPoint
+      10,               // allocPoint
       lpTokenAddress,  // LP Token Address
-      false, 
-      true         
+      true, 
+      false         
     );
     await tx.wait();
     console.log("✅ Special Pool added!");
@@ -1052,6 +1053,32 @@ async function main() {
 
   const totalSpecialAllocPoint = await testDEXFarm.totalSpecialAllocPoint();
   console.log(`✅ Tổng Special Alloc Point: ${totalSpecialAllocPoint.toString()}`);
+
+  
+  // const userAddress = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8";
+  // const pid = 1;
+
+  // const getBoostMultiplier = await testDEXFarm.getBoostMultiplier(userAddress, pid);
+  // console.log(`BoostMultiplier ${getBoostMultiplier}`)
+
+  // const boostContractAddress = await testDEXFarm.boostContract();
+  // console.log("Boost contract address is:", boostContractAddress);
+
+  // const BOOST_PRECISION = ethers.BigNumber.from("1000000000000");
+  // try {
+  //   await testDEXFarm.callStatic.updateBoostMultiplier(userAddress, pid, BOOST_PRECISION);
+  //   console.log("Simulated call passed.");
+  // } catch (error) {
+  //   console.error("Static call failed:", error.reason || error);
+  // }
+
+
+
+  // const farmInfo = await testDEXFarm.userInfo(pid, userAddress);
+  // console.log(`Farm Info: 
+  // amount = ${farmInfo.amount.toString()},
+  // rewardDebt = ${farmInfo.rewardDebt.toString()},
+  // boostMultiplier = ${farmInfo.boostMultiplier.toString()}`);
 
   if (totalSpecialAllocPoint.gte(0)) {
     console.log("\n🎉 Test Passed! Giá trị hợp lệ.");
@@ -1069,4 +1096,4 @@ main()
   });
 
 
-  // npx hardhat run test/testCakePerSecond.js --network RiseChain
+  // npx hardhat run test/testCakePerSecond.js --network MonadChain

@@ -741,7 +741,7 @@ interface IVCake {
 pragma solidity ^0.8.0;
 
 
-contract tabiSwapPool is Ownable, Pausable {
+contract MonadPool is Ownable, Pausable {
     using SafeERC20 for IERC20;
 
     struct UserInfo {

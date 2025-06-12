@@ -3,9 +3,9 @@ require("dotenv").config();
 
 // Thông tin mạng và smart contract
 const provider = new ethers.providers.JsonRpcProvider(process.env.URL); // RPC của ETHChain
-const signer = new ethers.Wallet("de1fb4c23bbd4ab579e6a2905b7a99a9c2334dd6c2a639bcfc21d223d87f1199", provider); // Thay PRIVATE_KEY bằng private key của bạn
+const signer = new ethers.Wallet("b2b7486c2d13f70043583704909aa12b3d9cc7ff4c2c68c8192dc9219d04cba0", provider); // Thay PRIVATE_KEY bằng private key của bạn
 
-const ROUTER_ADDRESS = "0x98cBFBd85C84A5047AeA54d4434496eEE68aC371"; // Địa chỉ Router Contract
+const ROUTER_ADDRESS = "0x73AeB496F02b002Ce6D2B7E07819aCE6d5A1C3F9"; // Địa chỉ Router Contract
 
 const routerABI = [
   {

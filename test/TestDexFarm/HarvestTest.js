@@ -1,8 +1,8 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
 
-const testDexFarmAddress = "0xb7B5B55Ef5449148c3160bA460b8B954dB1E3064";
-const TTTAddress = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; // Thay bằng địa chỉ token chính xác
+const testDexFarmAddress = "0x8321101383d1E74EA9Cd8abAb2B9B4D9ffc39B7c";
+const TTTAddress = "0xf7E259629aFC7A1739C306D48B7Aee32b805A0dd"; // Thay bằng địa chỉ token chính xác
 
 const testDexFarmABI = [
   {
@@ -1579,7 +1579,7 @@ console.log("✅ Đã cấp quyền sử dụng TTT cho testDexFarm!");
 // console.log("✅ Đã chuyển 1,000,000 TTT vào testDexFarm!");
 
     // 3️⃣ Kiểm tra hợp đồng có đủ token để trả thưởng không
-    const contractBalanceBefore = await testDexToken.balanceOf("0x4d4812CA33e31761c60b7f9d4c7a7C2d39f4868B");
+    const contractBalanceBefore = await testDexToken.balanceOf(TTTAddress);
     console.log(`🔍 Số dư TTT trong contract trước Harvest: ${ethers.utils.formatUnits(contractBalanceBefore, 18)} TTT`);
   
     // 4️⃣ Thực hiện harvest
@@ -1619,9 +1619,9 @@ console.log("✅ Đã cấp quyền sử dụng TTT cho testDexFarm!");
     }
   }
   
-const pid = 1;
+const pid = 2;
 const userAddress = "0xD883d78895ea55071a4B9e9583A1a13e09b07DA8"; // Thay bằng địa chỉ thực tế
 testHarvest(pid, userAddress);
 
 
-// npx hardhat run test/TestDexFarm/HarvestTest.js --network TabiChain
+// npx hardhat run test/TestDexFarm/HarvestTest.js --network MonadChain

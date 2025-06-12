@@ -1945,7 +1945,7 @@ contract LiPage is ERC1155, Ownable {
 
   function mint(address to, uint256 tokenId, uint256 amount) external payable onlyWhileOpen(tokenId) {
     require(address(tabiSwapRouter) != address(0), "Router not set");
-    require(tabiSwapRouter.getUserSwapCount(to) >= 3, "Need 10 swaps on DEX before minting");
+    require(tabiSwapRouter.getUserSwapCount(to) >= 10, "Need 10 swaps on DEX before minting");
 
     // Check if sender is owner (can mint for free) or has sent enough ETH
     if (msg.sender != owner()) {
@@ -1977,7 +1977,7 @@ contract LiPage is ERC1155, Ownable {
 
   function mintBatch(address to, uint256[] memory _tokenIds, uint256[] memory _amounts) public payable {
     require(address(tabiSwapRouter) != address(0), "Router not set");
-    require(tabiSwapRouter.getUserSwapCount(to) >= 3, "Need 10 swaps on DEX before minting");
+    require(tabiSwapRouter.getUserSwapCount(to) >= 10, "Need 10 swaps on DEX before minting");
 
     require(_tokenIds.length == _amounts.length, "Arrays length mismatch");
     

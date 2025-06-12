@@ -2,7 +2,7 @@ const { ethers } = require("ethers");
 require("dotenv").config();
 
 
-const TTTAddress = "0x452b9D82e7f72fE972Cc3Ca4568c084E7ff3E21b"; // Thay bằng địa chỉ token chính xác
+const TTTAddress = "0xf7E259629aFC7A1739C306D48B7Aee32b805A0dd"; // Thay bằng địa chỉ token chính xác
 const TTT_ABI =  [
   {
     "inputs": [
@@ -550,7 +550,7 @@ const signer = wallet.connect(provider);
 async function main() {
     const TestDEXToken = new ethers.Contract(TTTAddress, TTT_ABI, signer);
 
-    const transferTx = await TestDEXToken.transfer("0xf39ead9D924336766e01167A52f4A23444F79Ef7", ethers.utils.parseUnits("1000000", 18));
+    const transferTx = await TestDEXToken.transfer("0xe688b3c3b234d727dae1bd3c9b83bad8cacafd53", ethers.utils.parseUnits("1000000", 18));
     await transferTx.wait();
     console.log("✅ Đã chuyển 1,000,000 TTT vào TestDEXFarm!");
 
@@ -559,4 +559,4 @@ main().catch((error) => {
     console.error("❌ Lỗi:", error);
   });
 
-// npx hardhat run test/tranferTokenTTT.js --network TabiChain
+// npx hardhat run test/tranferTokenTTT.js --network MonadChain
